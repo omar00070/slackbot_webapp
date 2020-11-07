@@ -4,7 +4,6 @@ import os
 from pydantic import Field, BaseModel
 
 
-
 TOKEN = os.environ.get('SLACK_TOKEN')
 
 Slacker = Slack(
@@ -45,3 +44,8 @@ async def send_file(userID: str, file: UploadFile = File(...)):
     images[userID] = await file.read() 
     Slacker.send_file(CHANNEL, images[userID], messages[userID])
     return {"filename": file.filename}
+
+
+@app.get('/')
+def get_something():
+    return {'text': 'hello world'}
