@@ -33,7 +33,7 @@ app = FastAPI()
 
 @app.post('/upload_message/{userID}')
 async def upload_message(userID: str, message: MessageModel):
-    messages[userID] = await message.dict()['text']
+    messages[userID] = message.dict()['text']
     print(messages)
     return {'type': 'success'}
 
