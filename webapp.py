@@ -31,15 +31,16 @@ messages = {}
 app = FastAPI()
 
 
-@app.post('/upload_message/{userID}')
-async def upload_message(userID: str, message: MessageModel):
-    messages[userID] = message.dict()['text']
-    print(messages)
-    return {'type': 'success'}
+# @app.post('/upload_message/{userID}')
+# async def upload_message(userID: str, message: MessageModel):
+#     messages[userID] = message.dict()['text']
+#     print(messages[userID])
+#     return {'type': 'success'}
 
 
-@app.post('/send_file/{userID}')
-async def send_file(userID: str, file: UploadFile = File(...)):
+@app.post('/send_file/{userID}/{message}')
+async def send_file(userID: str, message: str, file: UploadFile = File(...)):
+    messages[userID] = message
     images[userID] = await file.read()
     Slacker.send_file(CHANNEL, images[userID], messages[userID])
     return {"filename": file.filename}
